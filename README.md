@@ -38,9 +38,9 @@ docker info
 mvn clean install  
 
 # Build image 
-docker build -t favorites-service:latest .  <br />
-docker tag favorites-service:latest sagariprashanth/favorites-service:latest <br />
-docker push sagariprashanth/favorites-service:latest <br />
+docker build -t gateway-router:latest .  <br />
+docker tag gateway-router:latest sagariprashanth/gateway-router:latest <br />
+docker push sagariprashanth/gateway-router:latest <br />
 
 
 # verify image is creation
@@ -48,30 +48,18 @@ docker images <br />
 
 
 -- kubectl scale deployment mysql --replicas=0
-kubectl apply -f k8s/mysql-pv.yaml <br />
-kubectl apply -f k8s/mysql-pvc.yaml <br />
-kubectl apply -f k8s/mysql-deployment.yaml <br />
-kubectl apply -f k8s/mysql-service.yaml <br />
-kubectl apply -f k8s/favorites-deployment.yaml <br />
-kubectl apply -f k8s/favorites-service.yaml <br />
+
+kubectl apply -f k8s/gateway-router-deployment.yaml <br />
+kubectl apply -f k8s/gateway-router-service.yaml <br />
 
 
-kubectl port-forward svc/favorites-service 9000:9000 <br />
-kubectl port-forward svc/mysql 3307:3306 <br />
+kubectl port-forward svc/gateway-router 8889:8889 <br />
 
-# stop mysql 
-kubectl scale deployment mysql --replicas=0
 
-# start mysql 
-kubectl scale deployment mysql --replicas=1
 
 # Delete old deployments 
-kubectl delete deployment favorites-service <br />
-kubectl delete service favorites-service <br />
-kubectl delete -f k8s/mysql-pv.yaml <br />
-kubectl delete -f k8s/mysql-pvc.yaml <br />
-kubectl delete -f k8s/mysql-deployment.yaml <br />
-kubectl delete -f k8s/mysql-service.yaml <br />
+kubectl delete deployment gateway-router-service <br />
+kubectl delete service gateway-router-service <br />
 
 # Stop minikube
 minikube stop
