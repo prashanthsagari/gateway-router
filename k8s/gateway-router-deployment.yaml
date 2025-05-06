@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-router
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-router
+  template:
+    metadata:
+      labels:
+        app: gateway-router
+    spec:
+      containers:
+        - name: gateway-router
+           image: gateway-router:latest
+           imagePullPolicy: Never
+          # image: sagariprashanth/gateway-router:latest
+          # imagePullPolicy: Always
+          ports:
+            - containerPort: 8889
+         
