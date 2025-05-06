@@ -58,6 +58,8 @@ kubectl port-forward svc/gateway-router 8889:8889 <br />
 
 
 # Delete old deployments 
+kubectl delete deployment gateway-router
+kubectl delete service gateway-router
 kubectl delete -f k8s/gateway-router-deployment.yaml <br />
 kubectl delete -f k8s/gateway-router-service.yaml <br />
 
