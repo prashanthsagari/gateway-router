@@ -1,0 +1,54 @@
+server:
+  port: 8889
+
+springdoc:
+  swagger-ui:
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: reviews-service
+        url: /reviews/v3/api-docs
+      - name: favorites-service
+        url: /favorites/v3/api-docs
+      - name: flat-service
+        url: http://localhost:3000/api-docs.json
+      
+
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      routes:
+        - id: reviews-service
+          uri: http://localhost:9001
+          predicates:
+            - Path=/reviews/**
+          filters:
+            - RewritePath=/reviews/(?<path>.*), /$\{path}
+        - id: favorites-service
+          uri: http://localhost:9000
+          predicates:
+            - Path=/favorites/**
+          filters:
+            - RewritePath=/favorites/(?<path>.*), /$\{path}
+        - id: flat-service
+          uri: http://localhost:3000
+          predicates:
+            - Path=/flats/**
+          filters:
+            - RewritePath=/flats/(?<path>.*), /$\{path}
+        - id: flat-service
+          uri: http://localhost:3000
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - RewritePath=/api/users/(?<path>.*), /$\{path}
+
+        
+
+      default-filters:
+        - AddRequestHeader=X-Request-Gateway, Gateway-Service
+
+
+

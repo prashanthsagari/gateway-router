@@ -10,7 +10,8 @@ springdoc:
       - name: favorites-service
         url: /favorites/v3/api-docs
       - name: flat-service
-        url: http://localhost:3000/api-docs.json
+        url: /api-docs.json
+        #/flats/api-docs.json
       
 
 spring:
@@ -20,30 +21,52 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: reviews-service
-          uri: http://localhost:9001
+        - id: reviews-swagger
+          uri: http://flat-listing-service:3000
+          predicates:
+           - Path=/api-docs.json
+
+        - id: reviews-swagger
+          uri: http://reviews-service:9001
+          predicates:
+           - Path=/reviews/v3/api-docs
+          filters:
+           - RewritePath=/reviews/v3/api-docs, /v3/api-docs
+           
+        - id: reviews-route
+          uri: http://reviews-service:9001
           predicates:
             - Path=/reviews/**
+#          filters:
+#            - RewritePath=/reviews/(?<path>.*), /$\{path}       
+            
+        - id: favorites-swagger
+          uri: http://favorites-service:9000
+          predicates:
+            - Path=/favorites/v3/api-docs
           filters:
-            - RewritePath=/reviews/(?<path>.*), /$\{path}
-        - id: favorites-service
-          uri: http://localhost:9000
+            - RewritePath=/favorites/v3/api-docs, /v3/api-docs
+            
+        - id: favorites-route
+          uri: http://favorites-service:9000
           predicates:
             - Path=/favorites/**
-          filters:
-            - RewritePath=/favorites/(?<path>.*), /$\{path}
-        - id: flat-service
-          uri: http://localhost:3000
+#          filters:
+#            - RewritePath=/favorites/(?<path>.*), /$\{path}
+            
+        - id: flats-route1
+          uri: http://flat-listing-service:3000
           predicates:
             - Path=/flats/**
-          filters:
-            - RewritePath=/flats/(?<path>.*), /$\{path}
+#          filters:
+#            - RewritePath=/flats/(?<path>.*), /$\{path}
+            
         - id: flat-service
-          uri: http://localhost:3000
+          uri: http://flat-listing-service:3000
           predicates:
             - Path=/api/users/**
-          filters:
-            - RewritePath=/api/users/(?<path>.*), /$\{path}
+#          filters:
+#            - RewritePath=/api/users/(?<path>.*), /$\{path}
 
         
 

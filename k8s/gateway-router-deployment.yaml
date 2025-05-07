@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: gateway-router
-           image: gateway-router:latest
-           imagePullPolicy: Never
+          image: gateway-router:latest
+          imagePullPolicy: Never
           # image: sagariprashanth/gateway-router:latest
           # imagePullPolicy: Always
           ports:
