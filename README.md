@@ -24,12 +24,12 @@ Run below commands using Powershell if  you are using Windows OS
 Otherwise the image will be in your local PC, not inside Minikube’s Docker engine.
  
 ### 2. Connect to Minikube's Docker Engine
-In PowerShell, run the following to switch to Minikube's Docker environment:
+In PowerShell, run the following to switch to Minikube's Docker environment: <br />
 
-& minikube docker-env | Invoke-Expression
+& minikube docker-env | Invoke-Expression <br />
 
 
-docker pull mysql:8.0
+
 
 # (Name: minikube)
 docker info  
@@ -58,8 +58,10 @@ kubectl port-forward svc/gateway-router 8889:8889 <br />
 
 
 # Delete old deployments 
-kubectl delete deployment gateway-router-service <br />
-kubectl delete service gateway-router-service <br />
+kubectl delete deployment gateway-router  <br />
+kubectl delete service gateway-router <br />
+kubectl delete -f k8s/gateway-router-deployment.yaml <br />
+kubectl delete -f k8s/gateway-router-service.yaml <br />
 
 # Stop minikube
 minikube stop
