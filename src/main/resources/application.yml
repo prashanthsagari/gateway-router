@@ -7,9 +7,13 @@ springdoc:
     urls:
       - name: reviews-service
         url: /reviews/v3/api-docs
+      - name: flatbuddy-service
+        url: /users/v3/api-docs
+      - name: reports-service
+        url: /reports/v3/api-docs
       - name: favorites-service
         url: /favorites/v3/api-docs
-      - name: flat-service
+      - name: flat-listing-service
         url: /api-docs.json
         #/flats/api-docs.json
       
@@ -33,6 +37,18 @@ spring:
           filters:
            - RewritePath=/reviews/v3/api-docs, /v3/api-docs
            
+        - id: reports-swagger
+          uri: http://reports-service:8081
+          predicates:
+           - Path=/reports/v3/api-docs
+          filters:
+           - RewritePath=/reports/v3/api-docs, /v3/api-docs
+           
+        - id: reports-route
+          uri: http://reports-service:8081
+          predicates:
+           - Path=/reports/**
+           
         - id: reviews-route
           uri: http://reviews-service:9001
           predicates:
@@ -53,15 +69,29 @@ spring:
             - Path=/favorites/**
 #          filters:
 #            - RewritePath=/favorites/(?<path>.*), /$\{path}
+
+        - id: flatbuddy-swagger
+          uri: http://flatbuddy-service:8080
+          predicates:
+            - Path=/users/v3/api-docs
+          filters:
+            - RewritePath=/users/v3/api-docs, /v3/api-docs
             
-        - id: flats-route1
+        - id: flatbuddy-route
+          uri: http://flatbuddy-service:8080
+          predicates:
+            - Path=/users/**
+#          filters:
+#            - RewritePath=/favorites/(?<path>.*), /$\{path}
+            
+        - id: flat-listing-service-route1
           uri: http://flat-listing-service:3000
           predicates:
             - Path=/flats/**
 #          filters:
 #            - RewritePath=/flats/(?<path>.*), /$\{path}
             
-        - id: flat-service
+        - id: flat-listing-service
           uri: http://flat-listing-service:3000
           predicates:
             - Path=/api/users/**
